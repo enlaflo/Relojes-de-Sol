@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Reloj vertical lateral</title>
+  <script type="text/javascript" src="https://arquimedes.matem.unam.mx/Descartes5/lib/descartes-min.js" charset="utf-8"></script>
+</head>
+
+<body bgcolor="8090a0" topmargin="10" leftmargin="0">
+
+  <div align="center">
+    <ajs name="Descartes" code="Descartes" width="1300" height="600">
+      <param name="tamaño" value="1300x600">
+      <param name="decimal_symbol" value=",">
+      <param name="nombre" value="Descartes">
+      <param name="Versión" value="5.5">
+      <param name="editable" value="sí">
+      <param name="Idioma" value="español">
+      <param name="Botones" value="créditos=no config=no inicio=sí limpiar=no filas_norte=0 filas_sur=0 ancho_este=150 ancho_oeste=150 alto=23 ">
+      <param name="E_01" value="tipo='R2' id='E1' x='20' y='5' ancho='1500' alto='800' escala='20' red='c0c0c0' red10='808080' ejes='808080' números='sí' ">
+      <param name="E_02" value="tipo='R3' R3='sí' id='E2' x='890' y='10' ancho='400' alto='540' escala='120' fondo='000000' despliegue='pintor' cortar='sí' ">
+      <param name="C_01" value="id='E1.escala' tipo='numérico' interfaz='barra' región='norte' espacio='E1' nombre='zoom' expresión='(1,5)' valor='100' incr='30' min='1' max='300' decimales='0' fijo='no' visible='no' color='e0e4e8' color-int='182C61' ">
+      <param name="C_02" value="id='linhoras' tipo='numérico' interfaz='menú' región='norte' espacio='E1' nombre='L.horar.' expresión='(0,0)' decimales='0' fijo='no' visible='no' opciones='cada hora,cada 1/2 hora,cada 1/4 hora' acción='calcular' ">
+      <param name="C_03" value="id='linfechas' tipo='numérico' interfaz='menú' región='norte' espacio='E1' nombre='L.fechas' expresión='(0,0)' decimales='0' fijo='no' visible='no' opciones='sin líneas,estacionales,zodiacales' acción='calcular' ">
+      <param name="C_04" value="id='ori' tipo='numérico' interfaz='menú' región='norte' espacio='E1' nombre='Orient.' expresión='(0,0)' valor='1' decimales='0' fijo='no' visible='no' opciones='ESTE[1],OESTE[-1]' acción='calcular' ">
+      <param name="C_05" value="id='La' tipo='numérico' interfaz='pulsador' región='sur' espacio='E1' nombre='latitud' expresión='(0,0)' valor='40' min='-90' max='90' decimales='1' visible='sí' ">
+      <param name="C_06" value="id='dia' tipo='numérico' interfaz='pulsador' región='sur' espacio='E1' nombre='dia' expresión='(0,0)' valor='1' incr='1' min='1' max='31' decimales='0' fijo='no' visible='sí' ">
+      <param name="C_07" value="id='mes' tipo='numérico' interfaz='menú' región='sur' espacio='E1' nombre='mes' expresión='(0,0)' decimales='0' fijo='no' visible='no' opciones='Enero,Febrero,Marzo,Abril,Mayo,Junio,Julio,Agosto,Septiembre,Octubre,Noviembre,Diciembre' acción='calcular' ">
+      <param name="C_08" value="id='ano' tipo='numérico' interfaz='pulsador' región='sur' espacio='E1' nombre='año' expresión='(0,0)' valor='2005' incr='1' min='2000' max='2100' decimales='0' fijo='no' visible='sí' ">
+      <param name="C_09" value="id='animar' interfaz='botón' tipo='numérico' región='sur' espacio='E1' nombre='animación' expresión='(0,0,150,23)' color='222022' color-int='8cf88d' negrita='sí' fuente puntos='14' acción='animar' ">
+      <param name="A_01" value="id='pi' expresión='3.141593' evaluar='una-sola-vez' constante='sí' ">
+      <param name="A_02" value="id='bisiesto' expresión='((ano/4)-ent(ano/4))=0?1:0' evaluar='siempre' constante='sí' ">
+      <param name="A_03" value="id='NRODIA' algoritmo='sí' evaluar='siempre' inicio='n=0;nrodia=((bisiesto==1)&((mes+1)>2))?(dia+1):dia' hacer='nrodia=nrodia+tablames[n];n=n+1' mientras='n<(mes+1)' ">
+      <param name="A_04" value="id='DECLINACION' algoritmo='sí' evaluar='siempre' hacer='LSol=279+0.986*nrodia+2*sen(0.986*nrodia*pi/180);senod=0.398*sen(LSol*pi/180);d=(asen(senod))*180/pi' ">
+      <param name="A_05" value="id='ORTOYOCASO' algoritmo='sí' evaluar='siempre' inicio='sworto=(abs(La)+abs(d))<90?1:0' hacer='ocaso=(sworto==1)?(acos(-tan(La*pi/180)*tan(d*pi/180))*180/pi):180;orto=-ocaso;ocasore=ent(ocaso/3.75)*3.75;ortore=-ocasore;ortoh=(orto+180)/15;ocasoh=(ocaso+180)/15' ">
+      <param name="A_06" value="id='dm' expresión='(La>=0)?23.44:-23.44' evaluar='siempre' constante='sí' ">
+      <param name="A_07" value="id='signoLa' expresión='(La>=0)?1:-1' evaluar='siempre' constante='sí' ">
+      <param name="A_08" value="id='incr' expresión='(ori==1)?0:180' evaluar='siempre' constante='sí' ">
+      <param name="A_09" value="id='tablames' vector='sí' evaluar='una-sola-vez' tamaño='13' expresión='tablames[0]=0;tablames[1]=31;tablames[2]=28;tablames[3]=31;tablames[4]=30;tablames[5]=31;tablames[6]=30;tablames[7]=31;tablames[8]=31;tablames[9]=30;tablames[10]=31;tablames[11]=30;tablames[12]=31' tipo='vector' ">
+      <param name="A_10" value="id='a(h,d)' algoritmo='sí' expresión='asen(senoa)' hacer='senoa=sen(La*pi/180)*sen(d*pi/180)+cos(La*pi/180)*cos(d*pi/180)*cos(h*pi/180);senoa=(senoa>1)?1:senoa;senoa=(senoa<-1)?-1:senoa' tipo='función' ">
+      <param name="A_11" value="id='A(h,d)' algoritmo='sí' expresión='(h>=0)?Az:-Az' hacer='cosAz=(sen(La*pi/180)*cos(d*pi/180)*cos(h*pi/180)-cos(La*pi/180)*sen(d*pi/180))/cos(a(h,d));cosAz=(cosAz>1)?1:cosAz;cosAz=(cosAz<-1)?-1:cosAz;Az=(La>=0)?acos(cosAz):(pi-acos(cosAz))' tipo='función' ">
+      <param name="A_12" value="id='Px(h,d)' algoritmo='sí' expresión='coorx' hacer='coorx=(tan(A(h,d)+ori*pi/2))*signoLa;' tipo='función' ">
+      <param name="A_13" value="id='Py(h,d)' algoritmo='sí' expresión='coory' hacer='coory=-tan(a(h,d))/cos(A(h,d)+ori*pi/2)' tipo='función' ">
+      <param name="A_14" value="id='Svis(h,d)' algoritmo='no' expresión='(abs(A(h,d)+ori*pi/2)<(pi/2-0.005))&(a(h,d)>0.005)?1:0' tipo='función' ">
+      <param name="G_01" value="espacio='E1' tipo='curva' color='0000ff' dibujar-si='Svis(s,dm)==1' coord_abs='no' expresión='(Px(s,t),Py(s,t))' familia='s' s.intervalo='[-180+incr,0+incr]' s.pasos='12' parámetro='t' t.intervalo='[-23.44,23.44]' t.pasos='1' ancho='1.5' ">
+      <param name="G_02" value="espacio='E1' tipo='curva' color='ff00ff' dibujar-si='(Svis(s,dm)==1)&(linhoras>0)' coord_abs='no' expresión='(Px(s,t),Py(s,t))' familia='s' s.intervalo='[-180+7.5+incr,-7.5+incr]' s.pasos='11' parámetro='t' t.intervalo='[-23.44,23.44]' t.pasos='1' ancho='1' ">
+      <param name="G_03" value="espacio='E1' tipo='curva' color='ffafaf' dibujar-si='(Svis(s,dm)==1)&(linhoras>1)' coord_abs='no' expresión='(Px(s,t),Py(s,t))' familia='s' s.intervalo='[-180+3.75+incr,-3.75+incr]' s.pasos='23' parámetro='t' t.intervalo='[-23.44,23.44]' t.pasos='1' ancho='0.5' ">
+      <param name="G_04" value="espacio='E1' tipo='curva' color='ff0000' dibujar-si='(a(t,s)>0.005)&(linfechas>0)' coord_abs='no' expresión='(Px(-t*ori,s),Py(-t*ori,s))' familia='s' s.intervalo='[-23.44,23.44]' s.pasos='2' parámetro='t' t.intervalo='[0.5,179.5]' t.pasos='89.5' ancho='1' ">
+      <param name="G_05" value="espacio='E1' tipo='curva' color='ff0000' dibujar-si='(a(t,s)>0.005)&(linfechas>1)' coord_abs='no' expresión='(Px(-t*ori,s),Py(-t*ori,s))' familia='s' s.intervalo='[-11.49,11.49]' s.pasos='1' parámetro='t' t.intervalo='[0.5,179.5]' t.pasos='89.5' ancho='1' ">
+      <param name="G_06" value="espacio='E1' tipo='curva' color='ff0000' dibujar-si='(a(t,s)>0.005)&(linfechas>1)' coord_abs='no' expresión='(Px(-t*ori,s),Py(-t*ori,s))' familia='s' s.intervalo='[-20.14,20.14]' s.pasos='1' parámetro='t' t.intervalo='[0.5,179.5]' t.pasos='89.5' ancho='1' ">
+      <param name="G_07" value="espacio='E1' tipo='punto' fondo='sí' color='1098502d' coord_abs='no' expresión='(0,0)' tamaño='3' ">
+      <param name="G_08" value="espacio='E1' tipo='segmento' color='000000' dibujar-si='Svis(h,d)==1' coord_abs='no' expresión='(0,0)(Px(h,d),Py(h,d))' texto='{\rtf1\uc0{\fonttbl\f0\fcharset0 Courier New;\f1\fcharset0 Courier New;}\f1\fs28\b{\*\mjaformula{\expr ent((h+180)/15)}}:{\*\mjaformula{\expr (((h+180)/15)-ent((h+180)/15))*60}}\fs24\b0\par}' decimales='0' fijo='no' tamaño='1' ancho='2' negrita='sí' font_family='Monospaced' fuente puntos='14' ">
+      <param name="G_09" value="espacio='E1' tipo='texto' fondo='sí' color='000000' coord_abs='sí' expresión='[0,5]' texto='{\rtf1\uc0{\fonttbl\f0\fcharset0 Courier New;\f1\fcharset0 Courier New;}\f1\fs24 Gnomon vertical unitario en (0,0)\par}' fijo='no' ancho='1' font_family='Monospaced' fuente puntos='12' align='a_left' anchor='a_top_left' ">
+      <param name="S_01" value="espacio='E2' tipo='texto' fondo='sí' color='ffffff' expresión='[50,15]' texto='===== RELOJ VERTICAL LATERAL ======' decimales='0' fijo='no' ancho='1' fuente puntos='16' align='a_left' anchor='a_top_left' ">
+      <param name="S_02" value="espacio='E2' tipo='texto' color='ffffff' dibujar-si='sworto==1' expresión='[50,35]' texto='ORTO: [ent(abs(ortoh))]h [ent((abs(ortoh)-ent(abs(ortoh)))*60)]m' decimales='2' fijo='no' ancho='1' fuente puntos='14' align='a_left' anchor='a_top_left' ">
+      <param name="S_03" value="espacio='E2' tipo='texto' color='ffffff' dibujar-si='sworto==1' expresión='[50,55]' texto='OCASO: [ent(abs(ocasoh))]h [ent((abs(ocasoh)-ent(abs(ocasoh)))*60)]m' decimales='2' fijo='no' ancho='1' fuente puntos='14' align='a_left' anchor='a_top_left' ">
+      <param name="S_04" value="espacio='E2' tipo='texto' color='ffffff' dibujar-si='sworto==0' expresión='[50,35]' texto='EN ESTE DÍA NO HAY ORTO NI OCASO' decimales='2' fijo='no' ancho='1' fuente puntos='14' align='a_left' anchor='a_top_left' ">
+      <param name="S_05" value="espacio='E2' tipo='texto' color='ffffff' dibujar-si='(sworto==0)&(a(h,d)>0.005)' expresión='[50,55]' texto='(Sol encima del horizonte)' decimales='2' fijo='no' ancho='1' fuente puntos='14' align='a_left' anchor='a_top_left' ">
+      <param name="S_06" value="espacio='E2' tipo='texto' color='ffffff' dibujar-si='(sworto==0)&(a(h,d)<-0.005)' expresión='[50,55]' texto='(Sol debajo del horizonte)' decimales='2' fijo='no' ancho='1' fuente puntos='14' align='a_left' anchor='a_top_left' ">
+      <param name="S_07" value="espacio='E2' tipo='texto' color='ffffff' dibujar-si='(sworto==0)&(abs(a(h,d))<=0.005)' expresión='[50,55]' texto='(Sol en el horizonte)' decimales='2' fijo='no' ancho='1' fuente puntos='14' align='a_left' anchor='a_top_left' ">
+      <param name="S_08" value="espacio='E2' tipo='texto' color='ffffff' expresión='[50,460]' texto='DECLINACIÓN: [d]º    ALTURA: [a(h,d)*180/pi]º' decimales='2' fijo='no' ancho='1' fuente puntos='14' align='a_left' anchor='a_top_left' ">
+      <param name="S_09" value="espacio='E2' tipo='texto' color='ffffff' expresión='[50,485]' texto='{\rtf1\uc0{\fonttbl\f0\fcharset0 Arial;}\f0\fs28  HORA SOLAR LOCAL: {\*\mjaformula{\expr ent((h+180)/15)\decimals 0\fixed0}}h {\*\mjaformula{\expr (((h+180)/15)-ent((h+180)/15))*60\decimals 0\fixed0}}m}' decimales='0' fijo='no' ancho='1' fuente puntos='14' align='a_left' anchor='a_top_left' ">
+      <param name="S_10" value="espacio='E2' tipo='polireg' fondo='sí' color='c0c0c0' color_reverso='808080' expresión='Polireg' cortar='sí' modelo='color' ancho='2' largo='2' Nu='20' ">
+      <param name="S_11" value="espacio='E2' tipo='curva' fondo='sí' color='ffffff' expresión='x=0\ny=cos(2*pi*u)\nz=sen(2*pi*u)' cortar='sí' ancho='1' Nu='20' ">
+      <param name="S_12" value="espacio='E2' tipo='curva' color='ff0000' expresión='x=cos(2*pi*u)\ny=0\nz=sen(2*pi*u)' rotini='(-La,0,0)' ancho='1' Nu='20' ">
+      <param name="S_13" value="espacio='E2' tipo='curva' color='ffff00' expresión='x=cos(d*pi/180)*cos(2*pi*u);y=0;z=cos(d*pi/180)*sen(2*pi*u)' rotini='(-La,0,0)' posini='(0,-sen(d*pi/180)*cos(La*pi/180),sen(d*pi/180)*sen(La*pi/180))' ancho='0.5' Nu='20' ">
+      <param name="S_14" value="espacio='E2' tipo='punto' fondo='sí' color='ff0000' color_reverso='6090a0' expresión='(0,-1,0)' rotini='(-La,0,0)' texto='PN' fuente puntos='14' decimales='2' ancho='1' offset_dist='10' offset_angle='270' ">
+      <param name="S_15" value="espacio='E2' tipo='punto' fondo='sí' color='ff0000' color_reverso='6090a0' expresión='(0,1,0)' rotini='(-La,0,0)' cortar='sí' texto='PS' fuente puntos='14' decimales='2' fijo='no' ancho='1' offset_dist='10' offset_angle='270' ">
+      <param name="S_16" value="espacio='E2' tipo='segmento' color='ff0000' expresión='(0,-1.4,0)(0,1,0)' rotini='(-La,0,0)' cortar='sí' ancho='1' Nu='5' ">
+      <param name="S_17" value="espacio='E2' tipo='punto' color='ffffff' color_reverso='ffffff' expresión='(0,-1.5,0)' rotini='(-La,0,0)' texto='Polar' fuente puntos='14' decimales='2' ancho='2' offset_dist='10' offset_angle='270' ">
+      <param name="S_18" value="espacio='E2' tipo='punto' fondo='sí' color='ff0000' color_reverso='6090a0' dibujar-si='(abs(La)>7)&(abs(La)<90)' expresión='(0,-1,0)' texto='N' font_family='Monospaced' fuente puntos='12' decimales='2' ancho='1' offset_dist='10' offset_angle='270' ">
+      <param name="S_19" value="espacio='E2' tipo='punto' fondo='sí' color='ff0000' color_reverso='6090a0' dibujar-si='(abs(La)>7)&(abs(La)<90)' expresión='(0,1,0)' texto='S' fuente puntos='14' decimales='2' ancho='1' offset_dist='10' offset_angle='270' ">
+      <param name="S_20" value="espacio='E2' tipo='punto' fondo='sí' color='ff0000' color_reverso='6090a0' expresión='(-1,0,0)' texto='E' fuente puntos='14' decimales='2' ancho='1' offset_dist='10' offset_angle='270' ">
+      <param name="S_21" value="espacio='E2' tipo='punto' fondo='sí' color='ff0000' color_reverso='6090a0' expresión='(1,0,0)' texto='O' fuente puntos='14' decimales='2' ancho='1' offset_dist='10' offset_angle='270' ">
+      <param name="S_22" value="espacio='E2' tipo='segmento' fondo='sí' color='ff0000' expresión='(0,-1,0.02)(0,1,0.02)' ancho='1' Nu='5' ">
+      <param name="S_23" value="espacio='E2' tipo='segmento' fondo='sí' color='ff0000' expresión='(-1,0,0.02)(1,0,0.02)' ancho='1' Nu='5' ">
+      <param name="S_24" value="espacio='E2' tipo='punto' color='ffff00' color_reverso='ffff00' expresión='(cos(d*pi/180)*sen(h*pi/180),(sen(La*pi/180)*cos(d*pi/180)*cos(h*pi/180)-cos(La*pi/180)*sen(d*pi/180)),senoa)' cortar='sí' texto=' Sol' fuente puntos='14' decimales='2' ancho='5' offset_dist='10' offset_angle='270' ">
+      <param name="S_25" value="espacio='E2' tipo='paralelepípedo' fondo='sí' color='ffffff' color_reverso='ffafaf' expresión='Paralelepípedo' rotini='(0,0,90)' posini='(0,0,0.25)' cortar='sí' aristas='000000' modelo='color' ancho='0.5' largo='0.01' alto='0.5' ">
+      <param name="S_26" value="espacio='E2' tipo='segmento' fondo='sí' color='a7774e' expresión='(0,0,0)(-0.15*ori,0,0)' posini='(-0.03*ori,0,0.25)' cortar='sí' ancho='5' Nu='3' ">
+      <param name="Animación" value="pausa='40' controles='sí' auto='no' repetir='no' inicio='h=ortore' hacer='h=h+3.75' mientras='h<ocasore' ">
+    </ajs>
+  </div>
+
+
+
+</body>
+</html>
